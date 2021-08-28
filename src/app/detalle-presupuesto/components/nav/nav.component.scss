@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+   }
+   
+   nav{
+    width: 100%;
+    height: 100px;
+    background-color: green;
+    position: fixed;
+    z-index: 100;
+    padding-left: 250px;
+   }
+  
+   .container .main-body{
+    width: 100%;
+    padding-left: 250px;
+    padding-top: 100px;
+    font-family: 'PT_Sans', sans-serif;
+   }
+  
+   .container aside{
+     width: 250px;
+     height: 100%;
+     transition: all 0.5s;
+     background-color:#212529;
+     position: fixed;
+     z-index: 100;
+   }
+  
