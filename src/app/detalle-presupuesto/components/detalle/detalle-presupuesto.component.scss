@@ -1,0 +1,70 @@
+.grid {
+    width: 99%;
+    margin: 0.5%;
+}
+
+.table{
+    width: 99%;
+    margin: 0.5%;
+    padding: 0.5%;
+}
+
+.p-field{
+    margin: 2%;
+}
+
+.toolbar{
+    width: 99%;
+    margin: 0.5%;
+    padding: 0.5%;
+}
+
+.p-field>label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+.p-field.p-grid, .p-formgrid.p-grid {
+    margin-top: 0;
+}
+
+.p-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.5rem;
+    margin-left: -.5rem;
+    margin-top: -.5rem;
+}
+
+.p-field-checkbox>label, .p-field-radiobutton>label {
+    margin-left: .5rem;
+    line-height: 1;
+}
+
+.p-mb-3 {
+    margin-bottom: 1rem!important;
+}
+
+.p-field-checkbox, .p-field-radiobutton {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.p-col-6 {
+    width: 50%;
+}
+
+.p-col-1, .p-col-2, .p-col-3, .p-col-4, .p-col-5, .p-col-6, .p-col-7, .p-col-8, .p-col-9, .p-col-10, .p-col-11, .p-col-12, .p-col-fixed {
+    flex: 0 0 auto;
+    padding: .5rem;
+}
+
+.p-field.p-grid .p-col, .p-field.p-grid .p-col-1, .p-field.p-grid .p-col-2, .p-field.p-grid .p-col-3, .p-field.p-grid .p-col-4, .p-field.p-grid .p-col-5, .p-field.p-grid .p-col-6, .p-field.p-grid .p-col-7, .p-field.p-grid .p-col-8, .p-field.p-grid .p-col-9, .p-field.p-grid .p-col-10, .p-field.p-grid .p-col-11, .p-field.p-grid .p-col-12, .p-field.p-grid .p-col-fixed, .p-formgrid.p-grid .p-col, .p-formgrid.p-grid .p-col-1, .p-formgrid.p-grid .p-col-2, .p-formgrid.p-grid .p-col-3, .p-formgrid.p-grid .p-col-4, .p-formgrid.p-grid .p-col-5, .p-formgrid.p-grid .p-col-6, .p-formgrid.p-grid .p-col-7, .p-formgrid.p-grid .p-col-8, .p-formgrid.p-grid .p-col-9, .p-formgrid.p-grid .p-col-10, .p-formgrid.p-grid .p-col-11, .p-formgrid.p-grid .p-col-12, .p-formgrid.p-grid .p-col-fixed {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.p-mr-2 {
+    margin-right: .5rem!important;
+}

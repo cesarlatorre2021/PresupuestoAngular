@@ -20,11 +20,14 @@
 
     <aside>
         <div class="sticky-top">
-            <p-toolbar [style]="{'background-color':'#da5e5b','height':'100px','border':'0','border-radius':'0'}" >
+            <p-toolbar [style]="{'background-color':'#5BA5D8','height':'100px','border':'0','border-radius':'0', 'justify-content': 'center', 'flex-wrap': 'nowrap'}" >
                 <div class="p-toolbar-group-left" >
+                    <img id="logo" src="/assets/Captura.PNG">
                 </div>
             </p-toolbar>
-            <p-panelMenu [transitionOptions]="'400ms'" [model]="items2" [style]="{'width':'250px'}" [multiple] = "false"></p-panelMenu>
+            <div class="top">
+                <p-panelMenu [transitionOptions]="'400ms'" [model]="items2" [style]="{'width':'250px'}" [multiple] = "false"></p-panelMenu>
+            </div>
         </div>
     </aside>
 

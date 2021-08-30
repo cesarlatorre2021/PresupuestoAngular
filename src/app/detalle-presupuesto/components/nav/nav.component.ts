@@ -48,9 +48,10 @@ export class NavComponent implements OnInit {
 
     this.items2 = [
         {
-            label: 'File',
+            label: 'Ingresos/Gastos',
             icon: 'pi pi-pw pi-file',
-            items: [{
+            routerLink: ['/detalle/view']
+          /*  items: [{
                     label: 'New', 
                     icon: 'pi pi-fw pi-plus',
                     items: [
@@ -61,7 +62,7 @@ export class NavComponent implements OnInit {
                 {label: 'Open', icon: 'pi pi-fw pi-external-link'},
                 {separator: true},
                 {label: 'Quit', icon: 'pi pi-fw pi-times'}
-            ]
+            ]*/
         },
         {
             label: 'Edit',
