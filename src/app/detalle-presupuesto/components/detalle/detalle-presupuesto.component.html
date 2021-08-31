@@ -46,7 +46,7 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
-            <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedGastos || !selectedGastos.length"></button>
+            <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPresupuestos()" [disabled]="!selectedGastos || !selectedGastos.length"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
@@ -57,8 +57,8 @@
 </div>
 
 <div class="table">
-    <p-table #dt [value]="gastos" [rows]="5" [paginator]="true" [globalFilterFields]="['categoria','descripcion']" responsiveLayout="scroll"
-        [(selection)]="selectedGastos" [rowHover]="true" dataKey="idGastos"
+    <p-table #dt [value]="presupuestos" [rows]="5" [paginator]="true" [globalFilterFields]="['categoria','descripcion']" responsiveLayout="scroll"
+        [(selection)]="selectedPresupuestos" [rowHover]="true" dataKey="idGastos"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
@@ -75,25 +75,27 @@
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th pSortableColumn="fecha">FECHA <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="tipo">TIPO <p-sortIcon field="tipo"></p-sortIcon></th>
                 <th pSortableColumn="categoria">CATEGORIA <p-sortIcon field="price"></p-sortIcon></th>
                 <th pSortableColumn="descripcion">DESCRIPCIÓN <p-sortIcon field="category"></p-sortIcon></th>
                 <th pSortableColumn="valor">VALOR <p-sortIcon field="rating"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-gasto>
+        <ng-template pTemplate="body" let-presupuesto>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="gasto"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="presupuesto"></p-tableCheckbox>
                 </td>
-                <td>{{gasto.fecha}}</td>
-                <td>{{gasto.categoria}}</td>
-                <td>{{gasto.descripcion}}</td>
+                <td>{{presupuesto.fecha}}</td>
+                <td><span [class]="'gasto-badge status-' + presupuesto.tipo.toLowerCase()">{{presupuesto.tipo}}</span></td>             
+                <td>{{presupuesto.categoria}}</td>
+                <td>{{presupuesto.descripcion}}</td>
                <!--td>{{gasto.valor | currency:'USD'}}</td>--> 
-                <td>{{gasto.valor}}</td>
+                <td>{{presupuesto.valor}}</td>
                  <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(gasto)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(gasto)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editPresupuesto(presupuesto)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePresupuesto(presupuesto)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -105,21 +107,21 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="gastoDialog" [style]="{width: '450px'}" header="Ingresar Registro" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="presupuestoDialog" [style]="{width: '450px'}" header="Ingresar Registro" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
         <div class="p-field">
             <label for="fecha">Fecha</label>
-            <p-calendar inputId="basic" [(ngModel)]="gasto.fecha"></p-calendar>
-            <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small>
+            <p-calendar inputId="basic" [(ngModel)]="presupuesto.fecha"></p-calendar>
+            <small class="p-error" *ngIf="submitted && !presupuesto.fecha">Fecha is required.</small>
         </div>
         <div class="p-field">
             <label for="description">Descripción</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="gasto.descripcion" required rows="3" cols="20"></textarea>
+            <textarea id="description" pInputTextarea [(ngModel)]="presupuesto.descripcion" required rows="3" cols="20"></textarea>
         </div>
         <div class="p-field">
             <label for="inventoryStatus">Tipo</label>
-            <p-dropdown [(ngModel)]="gasto.categoria" inputId="tipo" [options]="statuses" placeholder="Select">
+            <p-dropdown [(ngModel)]="presupuesto.categoria" inputId="tipo" [options]="statuses" placeholder="Select">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'gasto-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
@@ -130,19 +132,19 @@
             <label class="p-mb-3">Categoria</label>
             <div class="p-formgrid p-grid">
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="gasto.category"></p-radioButton>
+                    <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="presupuesto.category"></p-radioButton>
                     <label for="category1">Accessories</label>
                 </div>
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="gasto.category"></p-radioButton>
+                    <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="presupuesto.category"></p-radioButton>
                     <label for="category2">Clothing</label>
                 </div>
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="gasto.category"></p-radioButton>
+                    <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="presupuesto.category"></p-radioButton>
                     <label for="category3">Electronics</label>
                 </div>
                 <div class="p-field-radiobutton p-col-6">
-                    <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="gasto.category"></p-radioButton>
+                    <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="presupuesto.category"></p-radioButton>
                     <label for="category4">Fitness</label>
                 </div>
             </div>
@@ -150,14 +152,14 @@
 
         <div class="p-field">
             <label for="valor">Valor</label>
-            <input type="text" pInputText id="name" [(ngModel)]="gasto.valor" required autofocus />
+            <input type="text" pInputText id="name" [(ngModel)]="presupuesto.valor" required autofocus />
             <small class="p-error" *ngIf="submitted && !product.name">Valor is required.</small>
         </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savePresupuesto()"></button>
     </ng-template>
 </p-dialog>
 

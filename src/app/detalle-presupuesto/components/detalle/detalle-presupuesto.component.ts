@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GastosService } from './../../../core/services/gastos/gastos.service';
+import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
 import { PrimeNGConfig } from 'primeng/api';
-import { Gasto } from 'src/app/core/models/gasto.model';
+import { Presupuesto } from 'src/app/core/models/presupuesto.model';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
@@ -20,10 +20,10 @@ import { MessageService } from 'primeng/api';
 })
 export class DetallePresupuestoComponent implements OnInit {
 
-  gastoDialog: boolean;
-  gastos: Gasto[];
-  gasto : Gasto;
-  selectedGastos: Gasto[];
+  presupuestoDialog: boolean;
+  presupuestos: Presupuesto[];
+  presupuesto : Presupuesto;
+  selectedPresupuestos: Presupuesto[];
   submitted: boolean;
   statuses: any[];
 
@@ -31,7 +31,7 @@ export class DetallePresupuestoComponent implements OnInit {
   rows = 10;
 
   constructor(
-    private gastosService: GastosService, private primengConfig: PrimeNGConfig, private messageService: MessageService, private confirmationService: ConfirmationService
+    private presupuestoService: PresupuestoService, private primengConfig: PrimeNGConfig, private messageService: MessageService, private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -43,92 +43,93 @@ export class DetallePresupuestoComponent implements OnInit {
   }
 
   fetchGastos() {
-    this.gastosService.getAllGastos()
-    .subscribe(gastos => {
-      this.gastos = gastos;
+    this.presupuestoService.getAllPresupuestos()
+    .subscribe(presupuestos => {
+      this.presupuestos = presupuestos;
     });
   }
 
   openNew() {
-    this.gasto = {};
+    this.presupuesto = {};
     this.submitted = false;
-    this.gastoDialog = true;
+    this.presupuestoDialog = true;
   }
 
-  deleteSelectedProducts() {
+  deleteSelectedPresupuestos() {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete the selected products?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.gastos = this.gastos.filter(val => !this.gastos.includes(val));
-            this.selectedGastos = null;
+            this.presupuestos = this.presupuestos.filter(val => !this.presupuestos.includes(val));
+            this.selectedPresupuestos = null;
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
         }
     });
   }
 
-  editProduct(gasto: Gasto) {
-    this.gasto = {...gasto};
-    this.gastoDialog = true;
+  editPresupuesto(presupuesto: Presupuesto) {
+    this.presupuesto = {...presupuesto};
+    this.presupuestoDialog = true;
   }
 
-  deleteProduct(gasto: Gasto) {
+  deletePresupuesto(presupuesto: Presupuesto) {
     this.confirmationService.confirm({
-        message: 'Are you sure you want to delete ' + gasto.categoria + '?',
+        message: 'Are you sure you want to delete ' + presupuesto.categoria + '?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.gastos = this.gastos.filter(val => val.idGastos !== gasto.idGastos);
-            this.gasto = {};
+            this.presupuestos = this.presupuestos.filter(val => val.idPresupuesto !== presupuesto.idPresupuesto);
+            this.presupuesto = {};
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
         }
       });
   }
 
   hideDialog() {
-      this.gastoDialog = false;
+      this.presupuestoDialog = false;
       this.submitted = false;
   }
 
-  saveProduct() {
+  savePresupuesto() {
     this.submitted = true;
 
-    if (this.gasto.categoria.trim()) {
-        if (this.gasto.idGastos) {
-            this.gastos[this.findIndexById(this.gasto.idGastos)] = this.gasto;                
+    if (this.presupuesto.categoria.trim()) {
+        if (this.presupuesto.idPresupuesto) {
+            this.presupuestos[this.findIndexById(this.presupuesto.idPresupuesto)] = this.presupuesto;                
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
         }
         else {
-            this.gasto.idGastos = this.createId();
-            this.gastos.push(this.gasto);
+            this.presupuesto.idPresupuesto = this.createId();
+            this.presupuestos.push(this.presupuesto);
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
         }
 
-        this.gastos = [...this.gastos];
-        this.gastoDialog = false;
-        this.gasto = {};
+        this.presupuestos = [...this.presupuestos];
+        this.presupuestoDialog = false;
+        this.presupuesto = {};
     }
   }
 
-  findIndexById(id: number): number {
-    let index = -1;
-    for (let i = 0; i < this.gastos.length; i++) {
-        if (this.gastos[i].idGastos === id) {
-            index = i;
-            break;
-        }
-    }
-
-    return index;
-  }
-
-  createId(): number {
-      let id = 0;
-      for ( var i = 0; i < 5; i++ ) {
-          id += Math.random();
+  findIndexById(id: string): number {
+      let index = -1;
+      for (let i = 0; i < this.presupuestos.length; i++) {
+          if (this.presupuestos[i].idPresupuesto === id) {
+              index = i;
+              break;
+          }
       }
-      return id;
+
+      return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for ( var i = 0; i < 5; i++ ) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
   }
 
   next() {
@@ -144,11 +145,11 @@ export class DetallePresupuestoComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.gastos ? this.first === (this.gastos.length - this.rows): true;
+    return this.presupuestos ? this.first === (this.presupuestos.length - this.rows): true;
   }
 
   isFirstPage(): boolean {
-      return this.gastos ? this.first === 0 : true;
+      return this.presupuestos ? this.first === 0 : true;
   }
 
 }

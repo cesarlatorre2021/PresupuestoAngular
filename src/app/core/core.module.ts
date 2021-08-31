@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { GastosService } from './services/gastos/gastos.service';
-import { IngresosService } from './services/ingresos/ingresos.service';
-
+import { PresupuestoService } from './services/gastos/presupuesto.service';
 
 @NgModule({
   declarations: [],
@@ -11,8 +9,7 @@ import { IngresosService } from './services/ingresos/ingresos.service';
     CommonModule
   ],
   providers: [
-    GastosService,
-    IngresosService
+    PresupuestoService
   ]
 })
 export class CoreModule { }
