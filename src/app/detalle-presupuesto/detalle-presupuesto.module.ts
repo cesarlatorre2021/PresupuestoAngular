@@ -12,6 +12,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { DividerModule } from 'primeng/divider';
 import { NavComponent }  from './components/nav/nav.component';
 import { DetallePresupuestoComponent} from './components/detalle/detalle-presupuesto.component'
+import { InformacionDetalleComponent } from './components/informacion/informacion-detalle.component';
 import { TableModule } from 'primeng/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -31,10 +32,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DatePipe } from '@angular/common';
+import { LayoutModule } from '@angular/cdk/layout';
+import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [
-    DetallePresupuestoComponent, NavComponent
+    DetallePresupuestoComponent, NavComponent, InformacionDetalleComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -63,8 +68,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     RadioButtonModule,
     InputNumberModule,
     ConfirmDialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    LayoutModule,
+    ChartModule,
+    CardModule
   ],
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService, DatePipe]
 })
 export class DetalleModule { }

@@ -17,7 +17,7 @@ export class NavComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver,) {}
 
   items: MenuItem[];
   items2: MenuItem[];
