@@ -6,3 +6,43 @@ body {
 }
 html, body { height: 100%; }
 //body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.carga {
+    position: fixed;
+    top: 0;
+    left: 250px;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: opacify($color: #f5fdf5bb, $amount: 0);
+    display: flex;
+}
+
+.cargahijo{
+    width: 120px;
+}
+
+@media screen and (max-width: 960px) {
+
+    .carga {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: auto;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        background-color: opacify($color: #f5fdf5bb, $amount: 0);
+        display: flex;
+    }
+
+    .cargahijo{
+        width: 120px;
+    }
+    
+}

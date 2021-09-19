@@ -36,6 +36,8 @@ import { DatePipe } from '@angular/common';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,10 @@ import { CardModule } from 'primeng/card';
     InputTextareaModule,
     LayoutModule,
     ChartModule,
-    CardModule
+    CardModule,
+    ProgressBarModule,
+    ProgressSpinnerModule,
+    CheckboxModule
   ],
   providers: [MessageService, ConfirmationService, DatePipe]
 })

@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -13,16 +14,26 @@ export class NavComponent implements OnInit {
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
-      shareReplay()
+        map(result => result.matches),
+        shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver,) {}
+  constructor(
+      private breakpointObserver: BreakpointObserver,
+      private route: ActivatedRoute
+   ) {}
 
   items: MenuItem[];
   items2: MenuItem[];
+  idPadre: string;
 
   ngOnInit(): void {
+
+    this.route.params.subscribe((params: Params) => {
+        this.idPadre = params.id;
+    });
+
+    console.log("Dato ID: " + this.idPadre);
 
     this.items = [
         {

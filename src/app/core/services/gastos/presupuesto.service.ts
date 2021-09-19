@@ -5,6 +5,8 @@ import { Presupuesto } from '../../models/presupuesto.model';
 import { Sumatoria } from '../../models/sumatoria.model';
 import { Informacion } from '../../models/informacion.model';
 import { environment } from './../../../../environments/environment';
+import { Autenticacion } from '../../models/autenticacion.model';
+import { Registro } from '../../models/registro.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,14 +17,20 @@ export class PresupuestoService {
         private http: HttpClient
     ) { }
 
-    getAllPresupuestos() {
-        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista`)
+    getAllPresupuestos(idusuario: string) {
+        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista/${idusuario}`)
         .toPromise()
         .then(data => { return data; });
     }
 
     createPresupuesto(presupuesto: Presupuesto) {
         return this.http.post(`${environment.url_api}/presupuesto/api/save`, presupuesto)
+        .toPromise()
+        .then(presupuesto => { return presupuesto; });
+    }
+
+    createRegistro(registro: Registro) {
+        return this.http.post(`${environment.url_api}/presupuesto/api/registro/save`, registro)
         .toPromise()
         .then(presupuesto => { return presupuesto; });
     }
@@ -39,12 +47,16 @@ export class PresupuestoService {
         .then(presupuesto => { return presupuesto; });
     }
 
-    getAllSumatorias() {
-        return this.http.get<Sumatoria>(`${environment.url_api}/presupuesto/api/sumatorias`);
+    getAllSumatorias(idusuario: string) {
+        return this.http.get<Sumatoria>(`${environment.url_api}/presupuesto/api/sumatorias/${idusuario}`);
     }
 
-    getAllInformacion() {
-        return this.http.get<Informacion[]>(`${environment.url_api}/presupuesto/api/lista/totales`);
+    getAllInformacion(idusuario: string) {
+        return this.http.get<Informacion[]>(`${environment.url_api}/presupuesto/api/lista/totales/${idusuario}`);
+    }
+
+    getAutenticacion(usuario: string, password: string){
+        return this.http.get<Autenticacion>(`${environment.url_api}/presupuesto/api/autenticacion/${usuario}/${password}`);
     }
     
 }

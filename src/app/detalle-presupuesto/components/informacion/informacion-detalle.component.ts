@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Informacion } from '../../../core/models/informacion.model';
 import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
+import { Params, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-informacion-detalle',
@@ -15,14 +16,24 @@ export class InformacionDetalleComponent implements OnInit {
   data: any;
   basicData: any;
   lista: any[];
+  value: boolean = true;
+  id: string;
+  
 
-  constructor(private presupuestoService: PresupuestoService) { }
+  constructor(
+    private presupuestoService: PresupuestoService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-      this.presupuestoService.getAllInformacion().subscribe(informacion => {
-        this.informaciones = informacion;
 
-       // this.data = informacion;
+      this.route.params.subscribe((params: Params) => {
+        this.id = params.id;
+      });
+
+      this.presupuestoService.getAllInformacion(this.id).subscribe(informacion => {
+        this.informaciones = informacion;
+        this.value = false;
         this.data = {
          labels: this.informaciones.map(informacion => informacion.categoria),
          datasets: [

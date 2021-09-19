@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DetallePresupuestoComponent } from './components/detalle/detalle-presupuesto.component';
 import { NavComponent } from './components/nav/nav.component';
-import { InformacionDetalleComponent } from './components/informacion/informacion-detalle.component';                      
+import { InformacionDetalleComponent } from './components/informacion/informacion-detalle.component';                   
 
 const routes: Routes = [
   {
@@ -11,15 +11,15 @@ const routes: Routes = [
     component: NavComponent,
     children: [
       {
-        path: 'view',
+        path: 'view/:id',
         component: DetallePresupuestoComponent
       },
       {
-        path: 'info',
+        path: 'info/:id',
         component: InformacionDetalleComponent
       },
     ]
-  },
+  }
 ];
 
 @NgModule({

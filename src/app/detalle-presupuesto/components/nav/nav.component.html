@@ -3,10 +3,11 @@
     </nav>
 
     <div class="sidebar">
-        <a class="active" href="#home">Home</a>
-        <a routerLink="/detalle/view">Presupuesto</a>
-        <a routerLink="/detalle/info">Detalle Gastos</a>
-        <a href="#about">Detalle Ingresos</a>
+        <!--<a class="active" href="#home">Home</a>-->
+        <a class="active" [routerLink]="['./view',idPadre]">Presupuesto</a>
+        <a [routerLink]="['./info',idPadre]">Detalle Gastos</a>
+        <!--<a href="#about">Detalle Ingresos</a>-->
+        <a href="#about">Cerrar</a>
     </div>  
 
     <section class="main-body">

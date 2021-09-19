@@ -5,5 +5,6 @@ export interface Presupuesto {
     categoria?: string;
     descripcion?: string;
     valor?: string;
+    idUsuario?: string;
 }
   

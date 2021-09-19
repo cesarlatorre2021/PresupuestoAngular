@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
 import { Presupuesto } from 'src/app/core/models/presupuesto.model';
 import { Sumatoria } from 'src/app/core/models/sumatoria.model';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, Params, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-detalle-presupuesto',
@@ -34,6 +35,8 @@ export class DetallePresupuestoComponent implements OnInit {
   todayDate : Date = new Date();
   valorIngreso: number = 3000000;
   cols: any[];
+  value: boolean = true;
+  id: string;
 
   first = 0;
   rows = 10;
@@ -42,18 +45,27 @@ export class DetallePresupuestoComponent implements OnInit {
     private presupuestoService: PresupuestoService, 
     private messageService: MessageService, 
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {    
-    this.presupuestoService.getAllSumatorias().subscribe(sumatoria => {
-      this.sumatoria = sumatoria;
-      this.presupuestoService.getAllPresupuestos().then(data => this.presupuestos = data);
+
+    this.route.params.subscribe((params: Params) => {
+        this.id = params.id;
     });
+
+    this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => {
+      this.sumatoria = sumatoria;
+      this.presupuestoService.getAllPresupuestos(this.id).then(data => this.presupuestos = data);
+      this.value = false;
+    });
+
     this.statuses = [
       {label: 'INGRESO', value: 'ingreso'},
       {label: 'GASTO', value: 'gasto'}
     ];
+
     this.categorias = [
       {label: 'Alimentación', value: 'Alimentación'},
       {label: 'Servicios', value: 'Servicios'},
@@ -68,12 +80,13 @@ export class DetallePresupuestoComponent implements OnInit {
       {label: 'Viajes', value: 'Viajes'},
       {label: 'Salario', value: 'Salario'},
     ];
+
     this.cols = [
       { field: 'fecha', header: 'Fecha' },
       { field: 'tipo', header: 'Tipo' },
       { field: 'categoria', header: 'Categoria' },
       { field: 'valor', header: 'Valor' }
-  ];
+    ];
   }
 
   openNew() {
@@ -90,7 +103,7 @@ export class DetallePresupuestoComponent implements OnInit {
         accept: () => {
             this.presupuestos = this.presupuestos.filter(val => !this.presupuestos.includes(val));
             this.selectedPresupuestos = null;
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Registro Eliminado', life: 3000});
         }
     });
   }
@@ -105,17 +118,16 @@ export class DetallePresupuestoComponent implements OnInit {
 
   deletePresupuesto(presupuesto: Presupuesto) {
     this.confirmationService.confirm({
-        message: 'Are you sure you want to delete ' + presupuesto.categoria + '?',
+        message: '¿' + 'Esta seguro que desea eliminar el registro ' + presupuesto.categoria + '?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
             this.presupuestos = this.presupuestos.filter(val => val.idPresupuesto !== presupuesto.idPresupuesto);
             this.presupuestoService.deleteProduct(presupuesto.idPresupuesto);
             this.presupuesto = {};
-            this.ngOnInit();
+            this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Registro Eliminado', life: 3000});
             this.ngOnInit();
             this.reload();
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
         }
     });
   }
@@ -132,18 +144,17 @@ export class DetallePresupuestoComponent implements OnInit {
         if (this.presupuesto.idPresupuesto) {
             this.presupuestoService.updateProduct(this.presupuesto.idPresupuesto, this.presupuesto);
             this.presupuestos[this.findIndexById(this.presupuesto.idPresupuesto)] = this.presupuesto; 
-            this.presupuestoService.getAllSumatorias().subscribe(sumatoria => {this.sumatoria = sumatoria});            
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-            this.ngOnInit();
+            this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => {this.sumatoria = sumatoria});            
+            this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Registro Actualizado', life: 3000});
             this.reload();
         }
         else {
+            this.presupuesto.idUsuario = this.id;
             this.presupuesto.idPresupuesto = this.createId();
             this.presupuestoService.createPresupuesto(this.presupuesto).then(data => this.presupuesto = data);
-            this.presupuestoService.getAllSumatorias().subscribe(sumatoria => {this.sumatoria = sumatoria});     
+            this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => {this.sumatoria = sumatoria});     
             this.presupuestos.unshift(this.presupuesto);
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-            this.ngOnInit();
+            this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Registro Creado', life: 3000});
             this.reload();
         }
 
@@ -192,11 +203,12 @@ export class DetallePresupuestoComponent implements OnInit {
   }
 
   isFirstPage(): boolean {
-      return this.presupuestos ? this.first === 0 : true;
+    return this.presupuestos ? this.first === 0 : true;
   }
 
   reload(){
-    this.router.navigateByUrl("/detalle/view", { skipLocationChange: true });
+    this.router.navigateByUrl(`usuario/${this.id}/view/${this.id}`, { skipLocationChange: true });
+    this.ngOnInit();
   }
 
 }
