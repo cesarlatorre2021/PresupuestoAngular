@@ -10,7 +10,9 @@
 
 <ng-template #loggedOut>
     <div class="card">
-        <h2>Información promedio de Gastos</h2>
+        <h3>
+            <b>Información promedio de Gastos</b>
+        </h3>
 
         <p-divider align="left">
             <div class="p-d-inline-flex p-ai-center">
@@ -22,7 +24,9 @@
             <p-table [columns]="cols" [value]="informaciones" styleClass="p-datatable-responsive-demo">
                 <ng-template pTemplate="caption">
                     <div class="p-d-flex p-ai-center p-jc-between">
-                        <h5 class="p-m-0">Presupuesto Gastos</h5>
+                        <h7 class="p-m-0">
+                            <b>Presupuesto Gastos</b>
+                        </h7>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>

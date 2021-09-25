@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Presupuesto } from '../../models/presupuesto.model';
 import { Sumatoria } from '../../models/sumatoria.model';
 import { Informacion } from '../../models/informacion.model';
+import { InformacionIngresos } from '../../models/informacionIngresos.model';
 import { environment } from './../../../../environments/environment';
 import { Autenticacion } from '../../models/autenticacion.model';
 import { Registro } from '../../models/registro.model';
@@ -53,6 +54,10 @@ export class PresupuestoService {
 
     getAllInformacion(idusuario: string) {
         return this.http.get<Informacion[]>(`${environment.url_api}/presupuesto/api/lista/totales/${idusuario}`);
+    }
+
+    getAllInformacionIngresos(idusuario: string) {
+        return this.http.get<InformacionIngresos[]>(`${environment.url_api}/presupuesto/api/lista/totales/ingresos/${idusuario}`);
     }
 
     getAutenticacion(usuario: string, password: string){

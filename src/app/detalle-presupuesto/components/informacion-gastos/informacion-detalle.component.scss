@@ -1,0 +1,74 @@
+:host ::ng-deep {    
+    .p-datatable-tbody > tr > td {
+        padding: 0.2rem 1rem;
+    }
+
+    .p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
+        display: none;      
+    }
+}
+
+@media screen and (max-width: 40rem) {
+    :host ::ng-deep {
+        .p-datatable {
+            &.p-datatable-responsive-demo {
+                .p-datatable-thead > tr > th,
+                .p-datatable-tfoot > tr > td {
+                    display: none !important;
+                }
+
+                .p-datatable-tbody > tr > td {
+                    text-align: left;
+                    display: block;
+                    width: 100%;
+                    float: left;
+                    clear: left;
+                    border: 0 none;
+                    padding: 0.4rem 1rem;
+
+                    .p-column-title {
+                        padding: .4rem;
+                        min-width: 30%;
+                        display: inline-block;
+                        margin: -.4em 1em -.4em -.4rem;
+                        font-weight: bold;
+                    }
+
+                    &:last-child {
+                        border-bottom: 1px solid var(--surface-d);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.card{
+    margin: 0.5%;
+    padding: 0.5%;
+}
+
+.left {
+    float: left;
+    width: 50%;
+    border: 1px solid lightgrey;   
+    border-radius: 5px;
+  }
+
+.right {
+    float: right;
+    width: 49%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+  
+  /* Use a media query to add a break point at 800px: */
+@media screen and (max-width: 800px) {
+    .left{
+      width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+    }
+    .right {
+      width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+      margin-top: 20px;
+    }
+}

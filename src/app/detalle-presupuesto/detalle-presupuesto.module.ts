@@ -12,7 +12,8 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { DividerModule } from 'primeng/divider';
 import { NavComponent }  from './components/nav/nav.component';
 import { DetallePresupuestoComponent} from './components/detalle/detalle-presupuesto.component'
-import { InformacionDetalleComponent } from './components/informacion/informacion-detalle.component';
+import { InformacionDetalleComponent } from './components/informacion-gastos/informacion-detalle.component';
+import { InformacionIngresosComponent } from './components/informacion-ingresos/informacion-ingresos.component';
 import { TableModule } from 'primeng/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -41,7 +42,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
-    DetallePresupuestoComponent, NavComponent, InformacionDetalleComponent
+    DetallePresupuestoComponent, 
+    NavComponent, 
+    InformacionDetalleComponent,
+    InformacionIngresosComponent
   ],
   imports: [
     AdminRoutingModule,

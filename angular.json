@@ -37,7 +37,8 @@
             ],
             "scripts": [
               "src/app/page-not-found/404.js",
-              "node_modules/chart.js/dist/Chart.js"
+              "node_modules/chart.js/dist/Chart.js",              
+              "src/app/prueba-nav/prueba.js"
             ]
           },
           "configurations": {

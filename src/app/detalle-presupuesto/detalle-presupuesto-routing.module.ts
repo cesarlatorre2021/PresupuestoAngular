@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DetallePresupuestoComponent } from './components/detalle/detalle-presupuesto.component';
 import { NavComponent } from './components/nav/nav.component';
-import { InformacionDetalleComponent } from './components/informacion/informacion-detalle.component';                   
+import { InformacionDetalleComponent } from './components/informacion-gastos/informacion-detalle.component';
+import { InformacionIngresosComponent } from './components/informacion-ingresos/informacion-ingresos.component';              
 
 const routes: Routes = [
   {
@@ -15,8 +16,12 @@ const routes: Routes = [
         component: DetallePresupuestoComponent
       },
       {
-        path: 'info/:id',
+        path: 'info-gastos/:id',
         component: InformacionDetalleComponent
+      },
+      {
+        path: 'info-ingresos/:id',
+        component: InformacionIngresosComponent
       },
     ]
   }

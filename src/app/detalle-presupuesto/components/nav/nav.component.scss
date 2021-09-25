@@ -43,6 +43,26 @@
   color: #efefef;
 }
 
+.w3-light-grey, .w3-hover-light-grey:hover, .w3-light-gray, .w3-hover-light-gray:hover {
+  color: #000!important;
+  background-color: #ffffff!important;
+}
+
+.w3-white {
+  color: rgb(255, 255, 255)!important;
+  background-color: rgb(43, 47, 51)!important;
+}
+
+.w3-black, .w3-hover-black:hover {
+  color: #fff!important;
+  background-color: #944a0d!important;
+}
+
+.w3-blue, .w3-hover-blue {
+  color: #fff!important;
+  background-color: #47b475!important;
+}
+
 @media screen and (max-width: 960px) {
   .sidebar {
     width: 100%;
