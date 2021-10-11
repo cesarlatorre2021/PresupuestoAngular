@@ -39,6 +39,7 @@ import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CheckboxModule } from 'primeng/checkbox';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     CardModule,
     ProgressBarModule,
     ProgressSpinnerModule,
-    CheckboxModule
+    CheckboxModule,
+    OverlayPanelModule
   ],
   providers: [MessageService, ConfirmationService, DatePipe]
 })

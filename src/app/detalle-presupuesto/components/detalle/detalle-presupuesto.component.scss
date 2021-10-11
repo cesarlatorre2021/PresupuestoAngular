@@ -8,6 +8,12 @@
         display: flex;
         justify-content: space-between;
     }
+
+    .p-d-flex {
+        display: flex!important;
+        padding: 0;
+        padding: 0.5rem 0.5rem;
+    }
 }
 
 @media screen and (max-width: 960px) {
@@ -17,6 +23,11 @@
     }
     .p-button-help{
         display: none;
+    }
+
+    .p-mr-3  {
+        flex: 1 1 auto;
+        width: 150px;
     }
 
     :host ::ng-deep {
@@ -35,7 +46,7 @@
                     float: left;
                     clear: left;
                     border: 0 none;
-                    padding: 1rem 1rem;
+                    padding: 0.5rem 0.5rem;
 
                     .boton{
                         display: flex;
@@ -127,6 +138,10 @@
 }
 
 .p-mr-2 {
+    margin-right: .5rem!important;
+}
+
+.p-mr-3 {
     margin-right: .5rem!important;
 }
 

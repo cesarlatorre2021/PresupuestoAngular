@@ -15,11 +15,16 @@
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Ingresos</span>
-                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.50rem" value="sumatoria" ><b>{{sumatoria.sumaIngresos|currency:'USD':'symbol':'1.0-0'}}</b></div>
+                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.00rem" value="sumatoria" ><b>{{sumatoria.sumaIngresos|currency:'USD':'symbol':'1.0-0'}}</b></div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
                         <i class="pi pi-wallet text-blue-500 text-xl"></i>
                     </div>
+                </div>
+                <p-divider></p-divider>
+                <div>
+                    <span class="block text-500 font-medium mb-1">Ingresos del Mes</span>
+                    <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 1rem" value="sumatoria" ><b>{{sumatoriaMes.sumaIngresos|currency:'USD':'symbol':'1.0-0'}}</b></div>
                 </div>
             </div>
         </div>
@@ -28,11 +33,16 @@
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Gastos</span>
-                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.50rem" ><b>{{sumatoria.sumaGastos|currency:'USD':'symbol':'1.0-0'}}</b></div>
+                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.00rem" ><b>{{sumatoria.sumaGastos|currency:'USD':'symbol':'1.0-0'}}</b></div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
                         <i class="pi pi-money-bill text-orange-500 text-x1"></i>
                     </div>
+                </div>
+                <p-divider></p-divider>
+                <div>
+                    <span class="block text-500 font-medium mb-1">Gastos del Mes</span>
+                    <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 1rem" value="sumatoria" ><b>{{sumatoriaMes.sumaGastos|currency:'USD':'symbol':'1.0-0'}}</b></div>
                 </div>
             </div>
         </div>
@@ -41,11 +51,16 @@
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Diferencia</span>
-                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.50rem" ><b>{{sumatoria.diferencia|currency:'USD':'symbol':'1.0-0'}}</b></div>
+                        <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 2.00rem" ><b>{{sumatoria.diferencia|currency:'USD':'symbol':'1.0-0'}}</b></div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width:2.5rem;height:2.5rem">
                         <i class="pi pi-dollar text-cyan-500 text-xl"></i>
                     </div>
+                </div>
+                <p-divider></p-divider>
+                <div>
+                    <span class="block text-500 font-medium mb-1">Diferencia del Mes</span>
+                    <div [ngSwitch]="sumatoria" class="text-900 font-medium text-x1" style="font-size: 1rem" value="sumatoria" ><b>{{sumatoriaMes.diferencia|currency:'USD':'symbol':'1.0-0'}}</b></div>
                 </div>
             </div>
         </div>
@@ -57,12 +72,13 @@
         <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
                 <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Importar" chooseLabel="Importar" class="p-mr-2 p-d-inline-block"></p-fileUpload>
+                <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help p-mr-2"></button>
                 <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPresupuestos()" [disabled]="!selectedPresupuestos || !selectedPresupuestos.length"></button>
             </ng-template>
 
             <ng-template pTemplate="right">
-                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Importar" chooseLabel="Importar" class="p-mr-2 p-d-inline-block"></p-fileUpload>
-                <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"></button>
+                <p-calendar class="p-mr-3" [(ngModel)]="date" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker" placeholder="Filtro por fecha..." [showIcon]="true" (onSelect)="prueba()"></p-calendar>
             </ng-template>
         </p-toolbar>
     </div>
@@ -74,7 +90,7 @@
             <ng-template pTemplate="caption">
                 <div class="p-d-flex p-ai-center p-jc-between">
                     <h6 class="p-m-0">
-                        <b>Presupuesto Ingresos/Gastos</b>
+                        <b>Presupuesto</b>
                     </h6>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -184,8 +200,8 @@
         </ng-template>
 
         <ng-template pTemplate="footer">
-            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savePresupuesto()"></button>
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="savePresupuesto()"></button>
         </ng-template>
     </p-dialog>
 

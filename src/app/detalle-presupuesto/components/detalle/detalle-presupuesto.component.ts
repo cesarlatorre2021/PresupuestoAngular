@@ -5,6 +5,7 @@ import { Sumatoria } from 'src/app/core/models/sumatoria.model';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common'
 
 
 @Component({
@@ -24,10 +25,12 @@ import { Router, Params, ActivatedRoute } from '@angular/router';
 export class DetallePresupuestoComponent implements OnInit {
 
   presupuestoDialog: boolean;
+  filtroDialog: boolean;
   presupuestos: Presupuesto[];
   presupuesto : Presupuesto;
   selectedPresupuestos: Presupuesto[];
   sumatoria : Sumatoria = {};
+  sumatoriaMes : Sumatoria = {};
   submitted: boolean;
   statuses: any[];
   categorias: any[];
@@ -37,6 +40,8 @@ export class DetallePresupuestoComponent implements OnInit {
   cols: any[];
   value: boolean = true;
   id: string;
+  date: Date;
+  fechaActual: Date = new Date();
 
   first = 0;
   rows = 10;
@@ -46,7 +51,8 @@ export class DetallePresupuestoComponent implements OnInit {
     private messageService: MessageService, 
     private confirmationService: ConfirmationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datepipe: DatePipe
   ) { }
 
   ngOnInit(): void {    
@@ -57,7 +63,13 @@ export class DetallePresupuestoComponent implements OnInit {
 
     this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => {
       this.sumatoria = sumatoria;
-      this.presupuestoService.getAllPresupuestos(this.id).then(data => this.presupuestos = data);
+
+      if(this.date == null){
+        this.date = this.fechaActual;
+      }
+
+      this.presupuestoService.getAllPresupuestos(this.id,this.datepipe.transform(this.date, 'MM-YYYY')).then(data => this.presupuestos = data);
+      this.presupuestoService.getAllSumatoriasMes(this.id,this.datepipe.transform(this.date, 'MM-YYYY')).subscribe(sumatoria => this.sumatoriaMes = sumatoria)
       this.value = false;
     });
 
@@ -93,6 +105,12 @@ export class DetallePresupuestoComponent implements OnInit {
     this.presupuesto = {};
     this.submitted = false;
     this.presupuestoDialog = true;
+  }
+
+  openFiltro(){
+    this.presupuesto = {};
+    this.submitted = false;
+    this.filtroDialog = true;
   }
 
   deleteSelectedPresupuestos() {
@@ -209,6 +227,10 @@ export class DetallePresupuestoComponent implements OnInit {
   reload(){
     this.router.navigateByUrl(`usuario/${this.id}/view/${this.id}`, { skipLocationChange: true });
     this.ngOnInit();
+  }
+
+  prueba(){
+    this.reload();
   }
 
 }

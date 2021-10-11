@@ -1,4 +1,12 @@
 :host ::ng-deep {    
+
+    .p-toolbar {
+        background: #efefef;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 0.5rem;
+        border-radius: 4px;
+    }
+
     .p-datatable-tbody > tr > td {
         padding: 0.2rem 1rem;
     }
@@ -60,6 +68,10 @@
     width: 49%;
     border: 1px solid lightgrey;
     border-radius: 5px;
+}
+
+.toolbar{
+    width: 100%;
 }
   
   /* Use a media query to add a break point at 800px: */

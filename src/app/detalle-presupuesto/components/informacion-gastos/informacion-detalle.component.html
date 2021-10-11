@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div *ngIf="value; then prueba2 else loggedOut"></div>
 
 <ng-template #prueba2>
@@ -20,12 +22,22 @@
             </div>
         </p-divider>
 
+        <div class="toolbar">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <p-button  label="Filtrar" icon="pi pi-search" class="p-mr-2 p-d-inline-block"  (click)="op.toggle($event)"></p-button>
+                 </ng-template>
+            </p-toolbar>
+        </div>
+
+        <br>
+
         <div class="table">
             <p-table [columns]="cols" [value]="informaciones" styleClass="p-datatable-responsive-demo">
                 <ng-template pTemplate="caption">
                     <div class="p-d-flex p-ai-center p-jc-between">
                         <h7 class="p-m-0">
-                            <b>Presupuesto Gastos</b>
+                            <b>Presupuesto Gastos del {{fechaInicialString}} al {{fechaActualString}}</b>
                         </h7>
                     </div>
                 </ng-template>
@@ -66,4 +78,19 @@
             </div>
         </div>
     </div>
+
+    <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op [dismissable]="true" [showCloseIcon]="true"  [style]="{width: '410px'}">
+        <ng-template pTemplate>
+            <div class="p-field p-col-12 p-md-4">
+                <label for="range">
+                    <b>Filtar por rango de fechas</b>
+                </label>
+                <br>
+                <p-calendar [(ngModel)]="rangeDates" selectionMode="range"  [inline]="true" [readonlyInput]="true" inputId="range" [showIcon]="true"></p-calendar>
+                <br><br>
+                <button pButton pRipple label="Aceptar" class="w-full" (click)="filtrar()"></button >
+            </div>
+        </ng-template>
+    </p-overlayPanel>
+
 </ng-template>

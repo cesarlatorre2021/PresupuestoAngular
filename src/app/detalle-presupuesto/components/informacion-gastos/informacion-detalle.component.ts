@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Informacion } from '../../../core/models/informacion.model';
 import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
 import { Params, ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-informacion-detalle',
@@ -17,21 +18,29 @@ export class InformacionDetalleComponent implements OnInit {
   basicData: any;
   lista: any[];
   value: boolean = true;
+  fitroDialog: boolean = true;
   id: string;
-  
+  rangeDates: Date[];
+  fecha = new Date();
+  fechaInicialString =  '01-01-' + this.fecha.getFullYear();
+  fechaActualString = this.datepipe.transform(this.fecha, 'dd-MM-YYYY');
 
   constructor(
     private presupuestoService: PresupuestoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datepipe: DatePipe
   ) { }
 
   ngOnInit() {
+
+      console.log("Fecha Inicial " + this.fechaInicialString);
+      console.log("Fecha Actual " + this.fechaActualString);
 
       this.route.params.subscribe((params: Params) => {
         this.id = params.id;
       });
 
-      this.presupuestoService.getAllInformacion(this.id).subscribe(informacion => {
+      this.presupuestoService.getAllInformacion(this.id,this.fechaInicialString,this.fechaActualString).subscribe(informacion => {
         this.informaciones = informacion;
         this.value = false;
         this.data = {
@@ -80,6 +89,23 @@ export class InformacionDetalleComponent implements OnInit {
       });
   }
 
+  filtrar() {
+
+    console.log("Lenth: " + this.rangeDates.length);
+
+    if(this.rangeDates[1] == null){
+      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
+      this.fechaActualString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
+    }else{
+      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
+      this.fechaActualString = this.datepipe.transform(this.rangeDates[1], 'dd-MM-YYYY')
+    }
+
+    console.log("A: " + this.fechaInicialString);
+    console.log("B: " + this.fechaActualString);
+    this.reload();
+  }
+
   generarNumero(numero){
     return (Math.random()*numero).toFixed(0);
   }
@@ -87,6 +113,11 @@ export class InformacionDetalleComponent implements OnInit {
   colorRGB(){
     var coolor = "("+this.generarNumero(255)+"," + this.generarNumero(255) + "," + this.generarNumero(255) +")";
     return "rgb" + coolor;
+  }
+
+  reload(){
+    this.fitroDialog = false;
+    this.ngOnInit();
   }
   
 }

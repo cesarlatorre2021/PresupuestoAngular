@@ -18,8 +18,8 @@ export class PresupuestoService {
         private http: HttpClient
     ) { }
 
-    getAllPresupuestos(idusuario: string) {
-        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista/${idusuario}`)
+    getAllPresupuestos(idusuario: string, mesAnio: string) {
+        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista/${idusuario}/${mesAnio}`)
         .toPromise()
         .then(data => { return data; });
     }
@@ -52,8 +52,12 @@ export class PresupuestoService {
         return this.http.get<Sumatoria>(`${environment.url_api}/presupuesto/api/sumatorias/${idusuario}`);
     }
 
-    getAllInformacion(idusuario: string) {
-        return this.http.get<Informacion[]>(`${environment.url_api}/presupuesto/api/lista/totales/${idusuario}`);
+    getAllSumatoriasMes(idusuario: string, mesAnio: string) {
+        return this.http.get<Sumatoria>(`${environment.url_api}/presupuesto/api/sumatoriasMes/${idusuario}/${mesAnio}`);
+    }
+
+    getAllInformacion(idusuario: string, fechaInicial: string, fechaFinal: string) {
+        return this.http.get<Informacion[]>(`${environment.url_api}/presupuesto/api/lista/totales/${idusuario}/${fechaInicial}/${fechaFinal}`);
     }
 
     getAllInformacionIngresos(idusuario: string) {
