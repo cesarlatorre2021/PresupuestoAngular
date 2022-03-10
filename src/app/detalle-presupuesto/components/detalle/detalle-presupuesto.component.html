@@ -78,7 +78,7 @@
             </ng-template>
 
             <ng-template pTemplate="right">
-                <p-calendar class="p-mr-3" [(ngModel)]="date" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker" placeholder="Filtro por fecha..." [showIcon]="true" (onSelect)="prueba()"></p-calendar>
+                <p-calendar class="p-mr-3" [(ngModel)]="date" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" [readonlyInput]="true" inputId="monthpicker" placeholder="Filtro por fecha..." [showIcon]="true" (onSelect)="filtrarFecha()"></p-calendar>
             </ng-template>
         </p-toolbar>
     </div>
@@ -142,14 +142,10 @@
             <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
             <div class="p-field">
                 <label for="fecha">Fecha</label>
-                <p-calendar [(ngModel)]="presupuesto.fecha" dateFormat="dd/mm/yy"  [ngModelOptions]="{standalone: true}" inputId="dateformat"></p-calendar>
+                <p-calendar [(ngModel)]="presupuesto.fecha" dateFormat="dd/mm/yy" [ngModelOptions]="{standalone: true}" inputId="dateformat"></p-calendar>
                 <small class="p-error" *ngIf="!presupuesto.fecha">Fecha es requerido.</small>
             </div>
-            <div class="p-field">
-                <label for="description">Descripción</label>
-                <textarea id="description" pInputTextarea [(ngModel)]="presupuesto.descripcion" required rows="3" cols="20"></textarea>
-                <small class="p-error" *ngIf="!presupuesto.descripcion">Descripción es requerido.</small>
-            </div>
+
             <div class="p-field">
                 <label for="inventoryStatus">Tipo</label>
                 <p-dropdown [(ngModel)]="presupuesto.tipo" inputId="tipo" [options]="statuses" placeholder="Select">
@@ -160,15 +156,31 @@
                 <small class="p-error" *ngIf="!presupuesto.tipo">tipo es requerido.</small>
             </div> 
 
-            <div class="p-field">
+            <div class="p-field" *ngIf="presupuesto.tipo == 'gasto'">
                 <label for="inventoryStatus">Categoria</label>
-                <p-dropdown [(ngModel)]="presupuesto.categoria" inputId="categoria" [options]="categorias" placeholder="Select">
+                <p-dropdown [(ngModel)]="presupuesto.categoria"  inputId="categoria" [options]="categoriasGastos" placeholder="Select">
                     <ng-template let-option pTemplate="item">
                         <span>{{option.label}}</span>
                     </ng-template>
                 </p-dropdown>
                 <small class="p-error" *ngIf="!presupuesto.categoria">Categoria es requerido.</small>
             </div> 
+
+            <div class="p-field" *ngIf="presupuesto.tipo == 'ingreso'">
+                <label for="inventoryStatus">Categoria</label>
+                <p-dropdown [(ngModel)]="presupuesto.categoria"  inputId="categoria" [options]="categoriasIngresos" placeholder="Select">
+                    <ng-template let-option pTemplate="item">
+                        <span>{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+                <small class="p-error" *ngIf="!presupuesto.categoria">Categoria es requerido.</small>
+            </div> 
+
+            <div class="p-field">
+                <label for="description">Descripción</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="presupuesto.descripcion" required rows="3" cols="20"></textarea>
+                <small class="p-error" *ngIf="!presupuesto.descripcion">Descripción es requerido.</small>
+            </div>
 
         <!-- <div class="p-field">
                 <label class="p-mb-3">Categoria</label>
@@ -191,12 +203,15 @@
                     </div>
                 </div>
             </div>-->
-
+          
             <div class="p-field">
                 <label for="valor">Valor</label>
                 <p-inputNumber [(ngModel)]="presupuesto.valor" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
                 <small class="p-error" *ngIf="!presupuesto.valor">Valor es requerido.</small>
             </div>
+
+            <br>
+
         </ng-template>
 
         <ng-template pTemplate="footer">

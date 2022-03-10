@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
+import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
+import { Usuario } from 'src/app/core/models/usuario.model';
 
 @Component({
   selector: 'app-nav',
@@ -19,6 +21,7 @@ export class NavComponent implements OnInit {
     );
 
   constructor(
+    private presupuestoService: PresupuestoService, 
       private breakpointObserver: BreakpointObserver,
       private route: ActivatedRoute
    ) {}
@@ -26,6 +29,7 @@ export class NavComponent implements OnInit {
   items: MenuItem[];
   items2: MenuItem[];
   idPadre: string;
+  nombre: Usuario = {};
 
   ngOnInit(): void {
 
@@ -33,7 +37,7 @@ export class NavComponent implements OnInit {
         this.idPadre = params.id;
     });
 
-    console.log("Dato ID: " + this.idPadre);
+    this.presupuestoService.getNombreUsuarioAutenticado(this.idPadre).subscribe(data => {this.nombre = data});
 
     this.items = [
         {

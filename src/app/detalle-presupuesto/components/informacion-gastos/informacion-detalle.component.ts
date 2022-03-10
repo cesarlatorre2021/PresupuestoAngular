@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Informacion } from '../../../core/models/informacion.model';
 import { PresupuestoService } from '../../../core/services/gastos/presupuesto.service';
 import { Params, ActivatedRoute } from '@angular/router';
@@ -18,12 +18,13 @@ export class InformacionDetalleComponent implements OnInit {
   basicData: any;
   lista: any[];
   value: boolean = true;
-  fitroDialog: boolean = true;
   id: string;
   rangeDates: Date[];
   fecha = new Date();
   fechaInicialString =  '01-01-' + this.fecha.getFullYear();
-  fechaActualString = this.datepipe.transform(this.fecha, 'dd-MM-YYYY');
+  fechaActualString = this.datepipe.transform(this.fecha, 'dd-MM-yyyy');
+  filtrarDialog: boolean;
+  graficasDialog: boolean;
 
   constructor(
     private presupuestoService: PresupuestoService,
@@ -32,9 +33,6 @@ export class InformacionDetalleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-      console.log("Fecha Inicial " + this.fechaInicialString);
-      console.log("Fecha Actual " + this.fechaActualString);
 
       this.route.params.subscribe((params: Params) => {
         this.id = params.id;
@@ -90,20 +88,23 @@ export class InformacionDetalleComponent implements OnInit {
   }
 
   filtrar() {
-
-    console.log("Lenth: " + this.rangeDates.length);
-
     if(this.rangeDates[1] == null){
-      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
-      this.fechaActualString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
+      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy')
+      this.fechaActualString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy')
     }else{
-      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-YYYY')
-      this.fechaActualString = this.datepipe.transform(this.rangeDates[1], 'dd-MM-YYYY')
+      this.fechaInicialString = this.datepipe.transform(this.rangeDates[0], 'dd-MM-yyyy')
+      this.fechaActualString = this.datepipe.transform(this.rangeDates[1], 'dd-MM-yyyy')
     }
 
-    console.log("A: " + this.fechaInicialString);
-    console.log("B: " + this.fechaActualString);
     this.reload();
+  }
+
+  filtrarNew() {
+    this.filtrarDialog = true;
+  }
+
+  graficasNew(){
+    this.graficasDialog = true;
   }
 
   generarNumero(numero){
@@ -116,7 +117,7 @@ export class InformacionDetalleComponent implements OnInit {
   }
 
   reload(){
-    this.fitroDialog = false;
+    this.filtrarDialog = false;
     this.ngOnInit();
   }
   

@@ -25,7 +25,8 @@
         <div class="toolbar">
             <p-toolbar styleClass="p-mb-4">
                 <ng-template pTemplate="left">
-                    <p-button  label="Filtrar" icon="pi pi-search" class="p-mr-2 p-d-inline-block"  (click)="op.toggle($event)"></p-button>
+                    <p-button  label="Filtrar" icon="pi pi-search" class="p-d-inline-block p-mr-2"  (click)="filtrarNew()"></p-button>
+                    <button pButton pRipple icon="pi pi-globe" label="Gráficas" class="p-button-success p-mr-2" (click)="graficasNew()"></button>
                  </ng-template>
             </p-toolbar>
         </div>
@@ -64,26 +65,13 @@
             </p-table>
         </div>
 
-        <p-divider align="left">
-                <span class="p-tag" style="background-color: #47b475;">GRAFICAS</span>
-        </p-divider>
-
-        <div class="left">
-            <p-chart type="pie" [data]="data"></p-chart>
-        </div>
-        
-        <div class="right">
-            <div class="card">
-                <p-chart type="bar" [data]="basicData"></p-chart>
-            </div>
-        </div>
     </div>
 
-    <p-overlayPanel [showTransitionOptions]="'100ms'" [hideTransitionOptions]="'100ms'" #op [dismissable]="true" [showCloseIcon]="true"  [style]="{width: '410px'}">
+    <p-dialog [(visible)]="filtrarDialog" [style]="{width: '450px'}" header="Filtar por Fechas" [modal]="true" styleClass="p-fluid">
         <ng-template pTemplate>
             <div class="p-field p-col-12 p-md-4">
                 <label for="range">
-                    <b>Filtar por rango de fechas</b>
+                    <b>Filtrar por rango de fechas</b>
                 </label>
                 <br>
                 <p-calendar [(ngModel)]="rangeDates" selectionMode="range"  [inline]="true" [readonlyInput]="true" inputId="range" [showIcon]="true"></p-calendar>
@@ -91,6 +79,24 @@
                 <button pButton pRipple label="Aceptar" class="w-full" (click)="filtrar()"></button >
             </div>
         </ng-template>
-    </p-overlayPanel>
+    </p-dialog>
+
+    <p-dialog [(visible)]="graficasDialog" [style]="{width: '80%'}" header="Gastos" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate>
+            <p-divider align="center">
+                <span class="p-tag" style="background-color: #47b475;">GRAFICAS</span>
+            </p-divider>
+
+            <div class="left">
+                <p-chart type="pie" [data]="data"></p-chart>
+            </div>
+            
+            <div class="right">
+                <div class="card">
+                    <p-chart type="bar" [data]="basicData"></p-chart>
+                </div>
+            </div>
+        </ng-template>
+    </p-dialog>
 
 </ng-template>

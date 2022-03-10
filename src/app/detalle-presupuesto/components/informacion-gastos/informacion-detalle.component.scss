@@ -73,6 +73,10 @@
 .toolbar{
     width: 100%;
 }
+
+.p-mr-2 {
+    margin-right: .5rem!important;
+}
   
   /* Use a media query to add a break point at 800px: */
 @media screen and (max-width: 800px) {

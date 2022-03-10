@@ -20,6 +20,16 @@
             </div>
         </p-divider>
 
+        <div class="toolbar">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple icon="pi pi-globe" label="Gráficas" class="p-button-success p-mr-2" (click)="graficasNew()"></button>
+                 </ng-template>
+            </p-toolbar>
+        </div>
+
+        <br>
+
         <div class="table">
             <p-table [columns]="cols" [value]="informaciones" styleClass="p-datatable-responsive-demo">
                 <ng-template pTemplate="caption">
@@ -52,18 +62,23 @@
             </p-table>
         </div>
 
-        <p-divider align="left">
-                <span class="p-tag" style="background-color: #47b475;">GRAFICAS</span>
-        </p-divider>
+        <p-dialog [(visible)]="graficasDialog" [style]="{width: '80%'}" header="Ingresos" [modal]="true" styleClass="p-fluid">
+            <ng-template pTemplate>
+                <p-divider align="center">
+                    <span class="p-tag" style="background-color: #47b475;">GRAFICAS</span>
+                </p-divider>
+    
+                <div class="left">
+                    <p-chart type="pie" [data]="data"></p-chart>
+                </div>
+                
+                <div class="right">
+                    <div class="card">
+                        <p-chart type="bar" [data]="basicData"></p-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dialog>
 
-        <div class="left">
-            <p-chart type="pie" [data]="data"></p-chart>
-        </div>
-        
-        <div class="right">
-            <div class="card">
-                <p-chart type="bar" [data]="basicData"></p-chart>
-            </div>
-        </div>
     </div>
 </ng-template>

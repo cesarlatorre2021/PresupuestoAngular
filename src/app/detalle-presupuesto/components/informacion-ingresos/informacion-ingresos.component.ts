@@ -18,6 +18,7 @@ export class InformacionIngresosComponent implements OnInit {
   lista: any[];
   value: boolean = true;
   id: string;
+  graficasDialog: boolean;
   
   constructor(
     private presupuestoService: PresupuestoService,
@@ -77,6 +78,10 @@ export class InformacionIngresosComponent implements OnInit {
         };
         
       });
+  }
+
+  graficasNew(){
+    this.graficasDialog = true;
   }
 
   generarNumero(numero){

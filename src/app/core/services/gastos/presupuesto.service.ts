@@ -8,6 +8,7 @@ import { InformacionIngresos } from '../../models/informacionIngresos.model';
 import { environment } from './../../../../environments/environment';
 import { Autenticacion } from '../../models/autenticacion.model';
 import { Registro } from '../../models/registro.model';
+import { Usuario } from '../../models/usuario.model';
 
 @Injectable({
     providedIn: 'root'
@@ -66,6 +67,10 @@ export class PresupuestoService {
 
     getAutenticacion(usuario: string, password: string){
         return this.http.get<Autenticacion>(`${environment.url_api}/presupuesto/api/autenticacion/${usuario}/${password}`);
+    }
+
+    getNombreUsuarioAutenticado(idusuario: string){
+        return this.http.get<Usuario>(`${environment.url_api}/presupuesto/api/nombreUsuario/${idusuario}`);
     }
     
 }
