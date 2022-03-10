@@ -19,7 +19,4 @@ describe('InformacionDetalleComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
