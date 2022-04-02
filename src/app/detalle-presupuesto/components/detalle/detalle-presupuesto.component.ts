@@ -6,6 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detalle-presupuesto',
@@ -47,6 +48,8 @@ export class DetallePresupuestoComponent implements OnInit {
   first = 0;
   rows = 10;
 
+  suscription: Subscription;
+
   constructor(
     private presupuestoService: PresupuestoService, 
     private messageService: MessageService, 
@@ -62,16 +65,10 @@ export class DetallePresupuestoComponent implements OnInit {
         this.id = params.id;
     });
 
-    this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => {
-      this.sumatoria = sumatoria;
+    this.obtenerTotalSumatorias();
 
-      if(this.date == null){
-        this.date = this.fechaActual;
-      }
-
-      this.presupuestoService.getAllPresupuestos(this.id,this.datepipe.transform(this.date, 'MM-yyyy')).then(data => this.presupuestos = data);
-      this.presupuestoService.getAllSumatoriasMes(this.id,this.datepipe.transform(this.date, 'MM-yyyy')).subscribe(sumatoria => this.sumatoriaMes = sumatoria)
-      this.value = false;
+    this.suscription = this.presupuestoService.refresh$.subscribe(() => {
+      this.obtenerTotalSumatorias();
     });
 
     this.statuses = [
@@ -107,6 +104,20 @@ export class DetallePresupuestoComponent implements OnInit {
       { field: 'categoria', header: 'Categoria' },
       { field: 'valor', header: 'Valor' }
     ];
+  }
+
+  public obtenerTotalSumatorias(){
+
+    if(this.date == null){
+      this.date = this.fechaActual;
+    }
+
+    this.presupuestoService.getAllSumatorias(this.id).subscribe(sumatoria => this.sumatoria = sumatoria);
+    this.presupuestoService.getAllPresupuestos(this.id,this.datepipe.transform(this.date, 'MM-yyyy')).
+        subscribe(data => this.presupuestos = data);
+    this.presupuestoService.getAllSumatoriasMes(this.id,this.datepipe.transform(this.date, 'MM-yyyy')).
+        subscribe(sumatoria => this.sumatoriaMes = sumatoria);
+    this.value = false;
   }
 
   openNew() {
@@ -151,10 +162,8 @@ export class DetallePresupuestoComponent implements OnInit {
             this.presupuestoService.deleteProduct(presupuesto.idPresupuesto);
             this.presupuesto = {};
             this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Registro Eliminado', life: 3000});
-            this.reload();
         }
     });
-    console.log("Hello");
   }
 
   hideDialog() {
@@ -174,16 +183,12 @@ export class DetallePresupuestoComponent implements OnInit {
         else {
             this.presupuesto.idUsuario = this.id;
             this.presupuesto.idPresupuesto = this.createId();
-            this.presupuestoService.createPresupuesto(this.presupuesto).then(data => this.presupuesto = data);  
-            this.presupuestos.unshift(this.presupuesto);
+            this.presupuestoService.createPresupuesto(this.presupuesto).subscribe(data => this.presupuesto = data);  
             this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Registro Creado', life: 3000});
-        }
-
+        }  
         this.presupuestos = [...this.presupuestos];
-        this.sumatoria = this.sumatoria;
         this.presupuestoDialog = false;
         this.presupuesto = {};
-        this.reload();
     }
   }
 
@@ -228,13 +233,8 @@ export class DetallePresupuestoComponent implements OnInit {
     return this.presupuestos ? this.first === 0 : true;
   }
 
-  reload(){
-    //this.router.navigateByUrl(`usuario/${this.id}/view/${this.id}`, { skipLocationChange: true });
-    this.ngOnInit();
-  }
-
   filtrarFecha(){
-    this.reload();
+    this.ngOnInit();
   }
 
 }

@@ -9,42 +9,61 @@ import { environment } from './../../../../environments/environment';
 import { Autenticacion } from '../../models/autenticacion.model';
 import { Registro } from '../../models/registro.model';
 import { Usuario } from '../../models/usuario.model';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PresupuestoService {
 
+    private _refresh$ = new Subject<void>();
+
     constructor(
         private http: HttpClient
     ) { }
 
+    get refresh$(){
+        return this._refresh$;
+    }
+
     getAllPresupuestos(idusuario: string, mesAnio: string) {
-        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista/${idusuario}/${mesAnio}`)
-        .toPromise()
-        .then(data => { return data; });
+        return this.http.get<Presupuesto[]>(`${environment.url_api}/presupuesto/api/lista/${idusuario}/${mesAnio}`);
     }
 
     createPresupuesto(presupuesto: Presupuesto) {
         return this.http.post(`${environment.url_api}/presupuesto/api/save`, presupuesto)
-        .toPromise()
-        .then(presupuesto => { return presupuesto; });
+        .pipe(
+            tap(() => {
+                this._refresh$.next();
+            })
+        )
     }
 
     createRegistro(registro: Registro) {
         return this.http.post(`${environment.url_api}/presupuesto/api/registro/save`, registro)
         .toPromise()
-        .then(presupuesto => { return presupuesto; });
+        .then(presupuesto => { return presupuesto; })
     }
 
     deleteProduct(id: string) {
         return this.http.delete(`${environment.url_api}/presupuesto/api/delete/${id}`)
+        .pipe(
+            tap(() => {
+                this._refresh$.next();
+            })
+        )
         .toPromise()
         .then(presupuesto => { return presupuesto; });
     }
 
     updateProduct(id: string, changes: Partial<Presupuesto>) {
         return this.http.put(`${environment.url_api}/presupuesto/api/actualizar`, changes)
+        .pipe(
+            tap(() => {
+                this._refresh$.next();
+            })
+        )
         .toPromise()
         .then(presupuesto => { return presupuesto; });
     }
