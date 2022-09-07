@@ -89,6 +89,7 @@ export class DetallePresupuestoComponent implements OnInit {
       {label: 'Viajes', value: 'Viajes'},
       {label: 'Salud', value: 'Salud'},
       {label: 'Diversión y Ocio', value: 'Diversión y Ocio'},
+      {label: 'Inversión', value: 'Inversión'}
     ];
 
     this.categoriasIngresos = [
